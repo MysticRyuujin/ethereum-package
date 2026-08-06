@@ -60,6 +60,7 @@ disruptoor = import_module("./src/disruptoor/disruptoor_launcher.star")
 slashoor = import_module("./src/slashoor/slashoor_launcher.star")
 zkboost = import_module("./src/zkboost/zkboost_launcher.star")
 trueblocks = import_module("./src/trueblocks/trueblocks_launcher.star")
+enrscout = import_module("./src/enrscout/enrscout_launcher.star")
 
 GRAFANA_USER = "admin"
 GRAFANA_PASSWORD = "admin"
@@ -1400,6 +1401,24 @@ def run(plan, args={}):
                 args_with_right_defaults.docker_cache_params,
             )
             plan.print("Successfully launched trueblocks")
+        elif additional_service == "enrscout":
+            plan.print("Launching enrscout")
+            enrscout_metrics_jobs = enrscout.launch_enrscout(
+                plan,
+                args_with_right_defaults.enrscout_params,
+                el_cl_data_files_artifact_uuid,
+                network_params,
+                bootnodoor_enabled,
+                all_participants,
+                args_with_right_defaults.participants,
+                global_node_selectors,
+                global_tolerations,
+                args_with_right_defaults.port_publisher,
+                index,
+                args_with_right_defaults.docker_cache_params,
+            )
+            prometheus_additional_metrics_jobs.extend(enrscout_metrics_jobs)
+            plan.print("Successfully launched enrscout")
         elif additional_service == "otel":
             # Engine OTel reachability is enforced earlier via detect_engine_otel_endpoints();
             # if discovery succeeded, the per-client OTLP env vars are already wired.

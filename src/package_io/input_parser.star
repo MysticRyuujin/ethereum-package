@@ -96,6 +96,7 @@ ATTR_TO_BE_SKIPPED_AT_ROOT = (
     "buildoor_params",
     "ethereum_genesis_generator_params",
     "trueblocks_params",
+    "enrscout_params",
 )
 
 
@@ -138,6 +139,7 @@ def input_parser(plan, input_args):
     result["zkboost_params"] = get_default_zkboost_params()
     result["buildoor_params"] = get_default_buildoor_params()
     result["trueblocks_params"] = get_default_trueblocks_params()
+    result["enrscout_params"] = get_default_enrscout_params()
 
     if constants.NETWORK_NAME.shadowfork in result["network_params"]["network"]:
         shadow_base = result["network_params"]["network"].split("-shadowfork")[0]
@@ -245,6 +247,10 @@ def input_parser(plan, input_args):
                         result["trueblocks_params"]["scrape"][k] = v
                 else:
                     result["trueblocks_params"][sub_attr] = sub_value
+        elif attr == "enrscout_params":
+            for sub_attr in input_args["enrscout_params"]:
+                sub_value = input_args["enrscout_params"][sub_attr]
+                result["enrscout_params"][sub_attr] = sub_value
 
     if result.get("snooper_enabled"):
         plan.print(
@@ -1296,6 +1302,12 @@ def input_parser(plan, input_args):
             ),
             env=result["trueblocks_params"]["env"],
         ),
+        enrscout_params=struct(
+            crawler_image=result["enrscout_params"]["crawler_image"],
+            api_image=result["enrscout_params"]["api_image"],
+            crawler_extra_args=result["enrscout_params"]["crawler_extra_args"],
+            api_extra_args=result["enrscout_params"]["api_extra_args"],
+        ),
     )
 
 
@@ -2177,6 +2189,15 @@ def get_default_trueblocks_params():
             "unripe_dist": 0,
         },
         "env": {},
+    }
+
+
+def get_default_enrscout_params():
+    return {
+        "crawler_image": constants.DEFAULT_ENRSCOUT_CRAWLER_IMAGE,
+        "api_image": constants.DEFAULT_ENRSCOUT_API_IMAGE,
+        "crawler_extra_args": [],
+        "api_extra_args": [],
     }
 
 

@@ -30,6 +30,7 @@ Optional features (enabled via flags or parameter files at runtime):
 - Generate keystores for each node in parallel
 - Spin up [TrueBlocks](https://github.com/TrueBlocks/trueblocks-core) (`chifra daemon`) to serve the chifra REST API on port 8080 (`/status`, `/blocks`, `/list`, `/chunks`, etc.). The scraper isn't started automatically; POST `/scrape` (or run `chifra scrape` against the same data dir) when you want to build the local [Unchained Index](https://trueblocks.io/docs/install/get-the-index/). Auto-tunes scrape parameters for devnets vs public networks.
 - Ship traces from every EL/CL/VC to the engine-level Kurtosis OTel stack started with `kurtosis otel start` by adding `otel` to `additional_services`. Traces land in the shared ClickHouse tenanted by enclave; requires the Docker backend.
+- Spin up [ENRScout](https://github.com/MysticRyuujin/enrscout) to crawl the devnet's discv4/discv5 DHTs and serve a node explorer API with client fingerprints for every discovered EL and CL node. Seeds discovery from bootnodoor when it is enabled, and from the participants' own ENRs/enodes otherwise.
 
 ## Quickstart
 
@@ -1077,6 +1078,7 @@ additional_services:
   - dora
   - disruptoor
   - dugtrio
+  - enrscout
   - erpc
   - zkboost
   - forkmon
@@ -1146,6 +1148,19 @@ trueblocks_params:
     unripe_dist: 0
   # Extra env vars passed to the chifra container.
   env: {}
+
+# Configuration place for enrscout devp2p crawler and explorer - https://github.com/MysticRyuujin/enrscout
+enrscout_params:
+  # enrscout crawler docker image to use
+  # Defaults to the latest image
+  crawler_image: "ghcr.io/mysticryuujin/enrscout-crawler:latest"
+  # enrscout api docker image to use
+  # Defaults to the latest image
+  api_image: "ghcr.io/mysticryuujin/enrscout-api:latest"
+  # A list of optional extra args the crawler container should spin up with
+  crawler_extra_args: []
+  # A list of optional extra args the api container should spin up with
+  api_extra_args: []
 
 # Define custom file contents to be mounted into containers
 # These files are referenced by name in el_extra_mounts, cl_extra_mounts, and vc_extra_mounts

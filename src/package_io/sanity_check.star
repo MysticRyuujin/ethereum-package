@@ -483,6 +483,12 @@ SUBCATEGORY_PARAMS = {
         "scrape",
         "env",
     ],
+    "enrscout_params": [
+        "crawler_image",
+        "api_image",
+        "crawler_extra_args",
+        "api_extra_args",
+    ],
 }
 
 ADDITIONAL_SERVICES_PARAMS = [
@@ -514,6 +520,7 @@ ADDITIONAL_SERVICES_PARAMS = [
     "trueblocks",
     "otel",
     "buildoor",
+    "enrscout",
 ]
 
 ADDITIONAL_CATEGORY_PARAMS = {

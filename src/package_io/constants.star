@@ -128,6 +128,8 @@ DEFAULT_BUILDOOR_IMAGE = "ethpandaops/buildoor:main"
 DEFAULT_TRUEBLOCKS_IMAGE = "ethpandaops/trueblocks:v5.9.3"
 DEFAULT_HELIX_RELAY_IMAGE = "ghcr.io/gattaca-com/helix-relay:main"
 DEFAULT_ZKBOOST_IMAGE = "ghcr.io/eth-act/zkboost/zkboost:latest"
+DEFAULT_ENRSCOUT_CRAWLER_IMAGE = "ghcr.io/mysticryuujin/enrscout-crawler:latest"
+DEFAULT_ENRSCOUT_API_IMAGE = "ghcr.io/mysticryuujin/enrscout-api:latest"
 
 # Mapping from numeric proof-type IDs (used in --proof-types CL/VC flags) to
 # proof_type names (EL + zkVM combination, e.g., "reth-zisk" = Reth + Zisk).

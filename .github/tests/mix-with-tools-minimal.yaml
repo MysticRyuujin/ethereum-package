@@ -34,6 +34,7 @@ additional_services:
   - spamoor
   - bootnodoor
   - trueblocks
+  - enrscout
 ethereum_metrics_exporter_enabled: true
 snooper_enabled: true
 keymanager_enabled: true
